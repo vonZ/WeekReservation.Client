@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import DataTable from "../components/dataTable";
@@ -22,6 +22,18 @@ export const DELETE_RESERVATION = gql`
   mutation deleteReservation($selectedItem: ID!) {
     deleteReservationById(id: $selectedItem) {
       success
+      message
+      reservations {
+        id
+        userId
+        fromDate
+        toDate
+        comment
+        transportType
+        payedInAdvanced
+        rentOveralls
+        __typename
+      }
     }
   }
 `;
@@ -31,7 +43,27 @@ const Reservations = () => {
     GET_ALL_RESERVATIONS
   );
 
-  const [deleteReservation] = useMutation(DELETE_RESERVATION);
+  const [deleteReservationById] = useMutation(DELETE_RESERVATION, {
+    update(
+      cache,
+      {
+        data: {
+          deleteReservationById: { reservations }
+        }
+      }
+    ) {
+      const { getAllReservations } = cache.readQuery({
+        query: GET_ALL_RESERVATIONS
+      });
+      console.log(getAllReservations);
+      console.log(reservations);
+
+      cache.writeQuery({
+        query: GET_ALL_RESERVATIONS,
+        data: { getAllReservations: reservations }
+      });
+    }
+  });
 
   if (loading) return <p>LOADING</p>;
   if (error) return <p>ERROR</p>;
@@ -40,7 +72,7 @@ const Reservations = () => {
 
   const dataTableProps = {
     tableData,
-    deleteReservation
+    deleteReservationById
   };
 
   return <DataTable {...dataTableProps} />;
