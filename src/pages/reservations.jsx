@@ -1,31 +1,49 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import DataTable from '../components/dataTable';
+import React, { useState, useEffect } from "react";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import DataTable from "../components/dataTable";
 
 export const GET_ALL_RESERVATIONS = gql`
-	query getAllReservations {
-		getAllReservations {
-			id
-			userId
-			fromDate
-			toDate
-			comment
-			transportType
-			payedInAdvanced
-			rentOveralls
-		}
-	}
+  query getAllReservations {
+    getAllReservations {
+      id
+      userId
+      fromDate
+      toDate
+      comment
+      transportType
+      payedInAdvanced
+      rentOveralls
+    }
+  }
+`;
+
+export const DELETE_RESERVATION = gql`
+  mutation deleteReservation($selectedItem: ID!) {
+    deleteReservationById(id: $selectedItem) {
+      success
+    }
+  }
 `;
 
 const Reservations = () => {
-	const { data, loading, error } = useQuery(GET_ALL_RESERVATIONS);
-	if (loading) return <p>LOADING</p>;
-	if (error) return <p>ERROR</p>
+  const { data: reservationData, loading, error } = useQuery(
+    GET_ALL_RESERVATIONS
+  );
 
-	return (
-    <DataTable tableData={data.getAllReservations} />
-	);
+  const [deleteReservation] = useMutation(DELETE_RESERVATION);
+
+  if (loading) return <p>LOADING</p>;
+  if (error) return <p>ERROR</p>;
+
+  const { getAllReservations: tableData } = reservationData;
+
+  const dataTableProps = {
+    tableData,
+    deleteReservation
+  };
+
+  return <DataTable {...dataTableProps} />;
 };
 
 export default Reservations;
