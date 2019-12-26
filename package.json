@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "3.0.0",
+    "@fullcalendar/core": "^4.3.1",
+    "@fullcalendar/daygrid": "^4.3.0",
+    "@fullcalendar/interaction": "^4.3.0",
+    "@fullcalendar/react": "^4.3.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -14,6 +18,7 @@
     "emotion": "^9.2.12",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
+    "node-sass": "^4.13.0",
     "polished": "^3.4.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",

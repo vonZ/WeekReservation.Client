@@ -1,7 +1,9 @@
 import React from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import Container from "react-bootstrap/Container";
 import DataTable from "../components/dataTable";
+import Calendar from "../components/calendar/calendar";
 
 export const GET_ALL_RESERVATIONS = gql`
   query getAllReservations {
@@ -52,11 +54,9 @@ const Reservations = () => {
         }
       }
     ) {
-      const { getAllReservations } = cache.readQuery({
+      cache.readQuery({
         query: GET_ALL_RESERVATIONS
       });
-      console.log(getAllReservations);
-      console.log(reservations);
 
       cache.writeQuery({
         query: GET_ALL_RESERVATIONS,
@@ -75,7 +75,17 @@ const Reservations = () => {
     deleteReservationById
   };
 
-  return <DataTable {...dataTableProps} />;
+  const calendarProps = {
+    tableData,
+    deleteReservationById
+  };
+
+  return (
+    <Container>
+      <Calendar {...calendarProps} />
+	  <DataTable {...dataTableProps} /> 
+    </Container>
+  );
 };
 
 export default Reservations;

@@ -48,7 +48,7 @@ const DataTable = props => {
               ))}
           </tbody>
         </Table>
-      ): null}
+      ): <p>No table data</p>}
     </Container>
   );
 };
