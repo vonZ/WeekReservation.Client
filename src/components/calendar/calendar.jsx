@@ -2,10 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import interactionPlugin from "@fullcalendar/interaction";
+import svLocale from "@fullcalendar/core/locales/sv";
 import "./calendar.scss";
 
-const Calendar = ({ tableData = [], deleteReservationById = () => {} }) => {
+const Calendar = ({
+  tableData = [],
+  deleteReservationById = () => {},
+  setSelectedDate = () => {}
+}) => {
   const getEvents = () =>
     tableData.map(item => ({
       title: item.comment,
@@ -15,14 +20,35 @@ const Calendar = ({ tableData = [], deleteReservationById = () => {} }) => {
 
   const fullCalendarProps = {
     defaultView: "dayGridMonth",
+    locale: svLocale,
     selectable: true,
+    header: {
+      left: "prev,next today",
+      right: "title"
+    },
+    titleFormat: {
+      month: "long",
+      year: "numeric"
+    },
+    weekNumbers: true,
     plugins: [dayGridPlugin, interactionPlugin],
     events: getEvents(),
-    dateClick: arg => console.log({ arg }),
-    select: arg => console.log({ arg })
+    select: arg => setSelectedDate(arg),
+    eventClick: ({ event: { title, start, end } }) =>
+      console.log({
+        title,
+        start: start.toLocaleDateString(),
+        end: end.toLocaleDateString()
+      })
+
+    // unselect: () => setSelectedDate({})
   };
 
-  return <FullCalendar {...fullCalendarProps} />;
+  return (
+    <div className="calendar">
+      <FullCalendar {...fullCalendarProps} />
+    </div>
+  );
 };
 
 Calendar.propTypes = {
