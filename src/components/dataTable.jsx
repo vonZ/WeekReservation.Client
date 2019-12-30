@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
+import Container from '@material-ui/core/Container';
 
 const DataTable = props => {
   const { tableData = [], deleteReservationById = () => {} } = props;
@@ -21,7 +20,7 @@ const DataTable = props => {
   return (
     <Container>
       {tableData.length ? (
-        <Table responsive hover>
+        <table>
           <thead>
             <tr>
               {renderRowHeading(tableData[0])}
@@ -47,7 +46,7 @@ const DataTable = props => {
                 </tr>
               ))}
           </tbody>
-        </Table>
+        </table>
       ): <p>No table data</p>}
     </Container>
   );
