@@ -1,50 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import Container from '@material-ui/core/Container';
+import {
+  GET_ALL_RESERVATIONS,
+  GET_ALL_CUSTOMERS,
+  DELETE_RESERVATION,
+  MAKE_RESERVATION
+} from "../graphql";
+import Container from "@material-ui/core/Container";
 import DataTable from "../components/dataTable";
 import Calendar from "../components/calendar/calendar";
 import FormDialog from "../components/formDialog/formDialog";
 
-export const GET_ALL_RESERVATIONS = gql`
-  query getAllReservations {
-    getAllReservations {
-      id
-      userId
-      fromDate
-      toDate
-      comment
-      transportType
-      payedInAdvanced
-      rentOveralls
-    }
-  }
-`;
-
-export const DELETE_RESERVATION = gql`
-  mutation deleteReservation($selectedItem: ID!) {
-    deleteReservationById(id: $selectedItem) {
-      success
-      message
-      reservations {
-        id
-        userId
-        fromDate
-        toDate
-        comment
-        transportType
-        payedInAdvanced
-        rentOveralls
-        __typename
-      }
-    }
-  }
-`;
-
 const Reservations = () => {
   const [selectedDate, setSelectedDate] = useState({});
-  const { data: reservationData, loading, error } = useQuery(
-    GET_ALL_RESERVATIONS
+  const {
+    data: reservationData,
+    loading: reservationDataIsLoading,
+    error: reservationDataHasError
+  } = useQuery(GET_ALL_RESERVATIONS);
+  const { data: customerDate, error: getUserHasError } = useQuery(
+    GET_ALL_CUSTOMERS
   );
 
   const [deleteReservationById] = useMutation(DELETE_RESERVATION, {
@@ -67,18 +42,39 @@ const Reservations = () => {
     }
   });
 
-  // if (loading) return <p>LOADING</p>;
-  if (error) return <p>ERROR</p>;
+  const [makeReservation] = useMutation(MAKE_RESERVATION, {
+    update(
+      cache,
+      {
+        data: {
+          makeReservation: { reservations }
+        }
+      }
+    ) {
+      cache.readQuery({
+        query: GET_ALL_RESERVATIONS
+      });
 
-  const { getAllReservations: tableData } = reservationData;
+      cache.writeQuery({
+        query: GET_ALL_RESERVATIONS,
+        data: { getAllReservations: reservations }
+      });
+    }
+  });
 
-  const dataTableProps = {
-    tableData,
-    deleteReservationById
-  };
+  // if (reservationDataIsLoading) return <p>LOADING</p>;
+  if (reservationDataHasError) return <p>ERROR</p>;
+
+  const { getAllReservations: reservationNodes } = reservationData;
+  const { getAllCustomers: customers } = customerDate;
+
+  // const dataTableProps = {
+  //   tableData,
+  //   deleteReservationById
+  // };
 
   const calendarProps = {
-    tableData,
+    reservationNodes,
     deleteReservationById,
     setSelectedDate
   };
@@ -86,17 +82,19 @@ const Reservations = () => {
   const formDialogProps = {
     open: !!Object.keys(selectedDate).length,
     setSelectedDate,
-    selectedDate
+    selectedDate,
+    customers,
+    makeReservation
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Container>
         <Calendar {...calendarProps} />
         {/* <DataTable {...dataTableProps} /> */}
       </Container>
       <FormDialog {...formDialogProps} />
-    </React.Fragment>
+    </Fragment>
   );
 };
 

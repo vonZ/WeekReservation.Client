@@ -7,12 +7,13 @@ import svLocale from "@fullcalendar/core/locales/sv";
 import "./calendar.scss";
 
 const Calendar = ({
-  tableData = [],
+  reservationNodes = [],
   deleteReservationById = () => {},
   setSelectedDate = () => {}
 }) => {
   const getEvents = () =>
-    tableData.map(item => ({
+    reservationNodes.map(item => ({
+      ...item,
       title: item.comment,
       start: item.fromDate,
       end: item.toDate
@@ -33,12 +34,17 @@ const Calendar = ({
     weekNumbers: true,
     plugins: [dayGridPlugin, interactionPlugin],
     events: getEvents(),
-    select: arg => setSelectedDate(arg),
-    eventClick: ({ event: { title, start, end } }) =>
-      console.log({
-        title,
-        start: start.toLocaleDateString(),
-        end: end.toLocaleDateString()
+    select: ({ startStr, endStr }) =>
+      setSelectedDate({
+        fromDate: startStr,
+        toDate: endStr
+      }),
+    eventClick: ({ event }) =>
+      setSelectedDate({
+        title: event.title,
+        fromDate: event.start.toLocaleDateString(),
+        toDate: event.end.toLocaleDateString(),
+        ...event.extendedProps
       })
 
     // unselect: () => setSelectedDate({})
