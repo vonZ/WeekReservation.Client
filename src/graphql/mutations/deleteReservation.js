@@ -7,14 +7,15 @@ export const DELETE_RESERVATION = gql`
       message
       reservations {
         id
-        userId
+        customerId
         fromDate
         toDate
         comment
         transportType
+        roomType
+        nrOfGuests
         payedInAdvanced
         rentOveralls
-        __typename
       }
     }
   }
