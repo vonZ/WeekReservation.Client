@@ -4,20 +4,24 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import svLocale from "@fullcalendar/core/locales/sv";
+import { LoadingWrapper } from "../shared";
 import "./calendar.scss";
 
 const Calendar = ({
-  reservationNodes = [],
-  deleteReservationById = () => {},
-  setSelectedDate = () => {}
+  calendarNodes = [],
+  setSelectedDate = () => {},
+  shouldRenderEvents = false
 }) => {
   const getEvents = () =>
-    reservationNodes.map(item => ({
-      ...item,
-      title: item.comment,
-      start: item.fromDate,
-      end: item.toDate
-    }));
+    shouldRenderEvents
+      ? calendarNodes.map(item => ({
+          ...item,
+          itemId: item.id,
+          title: `${item.customer.firstName} ${item.customer.lastName}`,
+          start: item.fromDate,
+          end: item.toDate
+        }))
+      : [];
 
   const fullCalendarProps = {
     defaultView: "dayGridMonth",
@@ -32,8 +36,19 @@ const Calendar = ({
       year: "numeric"
     },
     weekNumbers: true,
+    editable: true,
+    validRange: {
+      start: "2020-01-01",
+      end: "2020-03-01"
+    },
     plugins: [dayGridPlugin, interactionPlugin],
     events: getEvents(),
+    eventDrop: ({ event }) =>
+      setSelectedDate({
+        fromDate: event.start,
+        toDate: event.end,
+        ...event.extendedProps
+      }),
     select: ({ startStr, endStr }) =>
       setSelectedDate({
         fromDate: startStr,
@@ -46,20 +61,21 @@ const Calendar = ({
         toDate: event.end.toLocaleDateString(),
         ...event.extendedProps
       })
-
-    // unselect: () => setSelectedDate({})
   };
 
   return (
     <div className="calendar">
-      <FullCalendar {...fullCalendarProps} />
+      <LoadingWrapper isActive={!shouldRenderEvents}>
+        <FullCalendar {...fullCalendarProps} />
+      </LoadingWrapper>
     </div>
   );
 };
 
 Calendar.propTypes = {
-  deleteReservationById: PropTypes.func,
-  tableData: PropTypes.array
+  calendarNodes: PropTypes.array,
+  setSelectedDate: PropTypes.func,
+  shouldRenderEvents: PropTypes.bool
 };
 
 export default Calendar;
