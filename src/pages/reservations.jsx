@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import {
   GET_ALL_RESERVATIONS,
   GET_ALL_CUSTOMERS,
+  GET_ALL_ROOM_TYPES,
   DELETE_RESERVATION,
   MAKE_RESERVATION
 } from "../graphql";
@@ -13,14 +14,24 @@ import FormDialog from "../components/formDialog/formDialog";
 
 const Reservations = () => {
   const [selectedDate, setSelectedDate] = useState({});
+
   const {
     data: reservationData,
     loading: reservationDataIsLoading,
     error: reservationDataHasError
   } = useQuery(GET_ALL_RESERVATIONS);
-  const { data: customerDate, error: getUserHasError } = useQuery(
-    GET_ALL_CUSTOMERS
-  );
+
+  const {
+    data: customerData,
+    loading: customerDataIsLoading,
+    error: getUserHasError
+  } = useQuery(GET_ALL_CUSTOMERS);
+
+  const {
+    data: roomTypesData,
+    loading: roomTypesDataIsLoading,
+    error: getRoomTypesError
+  } = useQuery(GET_ALL_ROOM_TYPES);
 
   const [deleteReservationById] = useMutation(DELETE_RESERVATION, {
     update(
@@ -62,21 +73,31 @@ const Reservations = () => {
     }
   });
 
-  // if (reservationDataIsLoading) return <p>LOADING</p>;
-  if (reservationDataHasError) return <p>ERROR</p>;
+  if (reservationDataHasError || getUserHasError || getRoomTypesError)
+    return <p>ERROR</p>;
 
-  const { getAllReservations: reservationNodes } = reservationData;
-  const { getAllCustomers: customers } = customerDate;
+  const { getAllReservations: reservationNodes = [] } = reservationData;
+  const { getAllCustomers: customers = [] } = customerData;
+  const { getAllRoomTypes: roomTypes = [] } = roomTypesData;
 
+  const calendarNodes = reservationNodes.map(data => ({
+    ...data,
+    customer: customers.find(item => Number(item.id) === data.customerId) || []
+  }));
   // const dataTableProps = {
   //   tableData,
   //   deleteReservationById
   // };
 
+  const shouldRenderEvents = () =>
+    !reservationDataIsLoading &&
+    !customerDataIsLoading &&
+    !roomTypesDataIsLoading;
+
   const calendarProps = {
-    reservationNodes,
-    deleteReservationById,
-    setSelectedDate
+    calendarNodes,
+    setSelectedDate,
+    shouldRenderEvents: shouldRenderEvents()
   };
 
   const formDialogProps = {
@@ -84,7 +105,9 @@ const Reservations = () => {
     setSelectedDate,
     selectedDate,
     customers,
-    makeReservation
+    roomTypes,
+    makeReservation,
+    deleteReservationById
   };
 
   return (
