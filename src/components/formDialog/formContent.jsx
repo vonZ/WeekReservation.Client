@@ -26,15 +26,19 @@ const useStyles = makeStyles(theme => ({
 
 const FormContent = ({
   selectedDate,
-  customers = [],
+  customers,
+  roomTypes,
   setFormData = () => {}
 }) => {
   const classes = useStyles();
-
   const [formValues, setFormValues] = useState(selectedDate);
+
   useEffect(() => {
     setFormData(formValues);
   }, [formValues, setFormData]);
+
+  const setSelectedListValue = (list, typeId) =>
+    list.find(item => Number(item.id) === formValues[typeId]);
 
   const inputOnChange = (name, value) => {
     setFormValues(values => ({
@@ -48,13 +52,14 @@ const FormContent = ({
       <section className={classes.formControl}>
         <Autocomplete
           id="customer"
+          defaultValue={setSelectedListValue(customers, "customerId")}
           options={customers}
           getOptionLabel={({ firstName, lastName, id }) =>
             `${firstName} ${lastName}`
           }
           autoSelect
           onChange={(event, value) =>
-            inputOnChange("customerId", Number(value.id) || '')
+            inputOnChange("customerId", Number(value.id) || "")
           }
           style={{ width: 300 }}
           renderInput={params => (
@@ -72,7 +77,9 @@ const FormContent = ({
             label="Från datum"
             format="dd/MM/yyyy"
             value={formValues.fromDate}
-            onChange={date => inputOnChange("fromDate", date.toLocaleDateString())}
+            onChange={date =>
+              inputOnChange("fromDate", date.toLocaleDateString())
+            }
             KeyboardButtonProps={{
               "aria-label": "change date"
             }}
@@ -85,7 +92,9 @@ const FormContent = ({
             label="Till datum"
             format="dd/MM/yyyy"
             value={formValues.toDate}
-            onChange={date => inputOnChange("toDate", date.toLocaleDateString())}
+            onChange={date =>
+              inputOnChange("toDate", date.toLocaleDateString())
+            }
             KeyboardButtonProps={{
               "aria-label": "change date"
             }}
@@ -98,8 +107,27 @@ const FormContent = ({
           id="transportType"
           onChange={({ target }) => inputOnChange(target.id, target.value)}
           label="Transportsätt"
+          value={formValues.transportType}
           type="text"
           fullWidth
+        />
+      </section>
+      <section className={classes.formControl}>
+        <Autocomplete
+          id="roomType"
+          defaultValue={setSelectedListValue(roomTypes, "roomType")}
+          options={roomTypes}
+          getOptionLabel={({ name, roomType, roomTypesAvailable }) =>
+            `${name} - ${roomType} (${roomTypesAvailable})`
+          }
+          autoSelect
+          onChange={(event, value) =>
+            inputOnChange("roomType", Number(value.id) || "")
+          }
+          style={{ width: 300 }}
+          renderInput={params => (
+            <TextField {...params} label="Rumstyp" fullWidth />
+          )}
         />
       </section>
       <section className={classes.formControl}>
@@ -122,7 +150,6 @@ const FormContent = ({
             aria-label="position"
             name="payedInAdvanced"
             onChange={({ target }) =>
-              !console.log(target.checked) &&
               inputOnChange("payedInAdvanced", target.checked)
             }
             value={formValues.payedInAdvanced}
@@ -173,7 +200,9 @@ const FormContent = ({
 };
 
 FormContent.propTypes = {
-  selectedDate: PropTypes.object
+  customers: PropTypes.array,
+  selectedDate: PropTypes.object,
+  setFormData: PropTypes.func
 };
 
 export default FormContent;

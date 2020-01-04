@@ -10,10 +10,12 @@ import "./form-dialog.scss";
 
 const FormDialog = ({
   open = false,
-  setSelectedDate = () => {},
   selectedDate = {},
   customers = [],
-  makeReservation = () => {}
+  roomTypes = [],
+  setSelectedDate = () => {},
+  makeReservation = () => {},
+  deleteReservationById = () => {}
 }) => {
   const [modalIsOpen, setModalVisibility] = useState(false);
   const [formData, setFormData] = useState({});
@@ -22,30 +24,36 @@ const FormDialog = ({
     setModalVisibility(open);
   }, [open]);
 
-  const saveForm = () => {
+  const saveEntry = () =>
     makeReservation({
       variables: formData
-    });
-    setSelectedDate({});
-  };
+    }) && closeModal();
+
+  const deleteEntry = () =>
+    deleteReservationById({
+      variables: { selectedItem: Number(selectedDate.itemId) }
+    }) && closeModal();
+
+  const closeModal = () => setSelectedDate({});
 
   const formContentProps = {
     selectedDate,
     customers,
+    roomTypes,
     setFormData
   };
 
   return (
-    <Modal open={modalIsOpen} handleClose={() => setSelectedDate({})}>
+    <Modal open={modalIsOpen} handleClose={() => closeModal()}>
       <DialogTitle id="form-dialog-title">Lägg till en ny bokning</DialogTitle>
       <DialogContent>
         <FormContent {...formContentProps} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setSelectedDate({})} color="secondary">
+        <Button onClick={deleteEntry} color="secondary">
           Radera bokning
         </Button>
-        <Button onClick={saveForm} color="primary">
+        <Button onClick={saveEntry} color="primary">
           Spara
         </Button>
       </DialogActions>
