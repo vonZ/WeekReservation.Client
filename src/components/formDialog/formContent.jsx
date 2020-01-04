@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import svLocale from "date-fns/locale/sv";
+import Grid from "@material-ui/core/Grid";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -16,11 +17,12 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(1)
+  root: {
+    flexGrow: 1
   },
-  dateInput: {
-    marginRight: theme.spacing(1)
+  textInput: {
+    marginTop: 5,
+    marginBottom: 4
   }
 }));
 
@@ -48,153 +50,161 @@ const FormContent = ({
   };
 
   return (
-    <div className="form-content">
-      <section className={classes.formControl}>
-        <Autocomplete
-          id="customer"
-          defaultValue={setSelectedListValue(customers, "customerId")}
-          options={customers}
-          getOptionLabel={({ firstName, lastName, id }) =>
-            `${firstName} ${lastName}`
-          }
-          autoSelect
-          onChange={(event, value) =>
-            inputOnChange("customerId", Number(value.id) || "")
-          }
-          style={{ width: 300 }}
-          renderInput={params => (
-            <TextField {...params} label="Besökare" fullWidth />
-          )}
-        />
-      </section>
-      <section className={classes.formControl}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={svLocale}>
-          <KeyboardDatePicker
-            margin="normal"
-            id="fromDate"
-            className={classes.dateInput}
-            autoOk
-            label="Från datum"
-            format="dd/MM/yyyy"
-            value={formValues.fromDate}
-            onChange={date =>
-              inputOnChange("fromDate", date.toLocaleDateString())
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={8}>
+          <Autocomplete
+            id="customer"
+            className={classes.textInput}
+            defaultValue={setSelectedListValue(customers, "customerId")}
+            options={customers}
+            getOptionLabel={({ firstName, lastName, id }) =>
+              `${firstName} ${lastName}`
             }
-            KeyboardButtonProps={{
-              "aria-label": "change date"
-            }}
+            autoSelect
+            onChange={(event, value) =>
+              inputOnChange("customerId", Number(value.id) || "")
+            }
+            renderInput={params => (
+              <TextField {...params} label="Huvudbokare" fullWidth />
+            )}
           />
-          <KeyboardDatePicker
-            margin="normal"
-            id="toDate"
-            className={classes.dateInput}
-            autoOk
-            label="Till datum"
-            format="dd/MM/yyyy"
-            value={formValues.toDate}
-            onChange={date =>
-              inputOnChange("toDate", date.toLocaleDateString())
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            margin="dense"
+            id="nrOfGuests"
+            onChange={({ target }) =>
+              inputOnChange(target.id, Number(target.value))
             }
-            KeyboardButtonProps={{
-              "aria-label": "change date"
-            }}
+            label="Totalt antal gäster"
+            value={formValues.nrOfGuests}
+            type="text"
+            fullWidth
           />
-        </MuiPickersUtilsProvider>
-      </section>
-      <section className={classes.formControl}>
-        <TextField
-          margin="dense"
-          id="transportType"
-          onChange={({ target }) => inputOnChange(target.id, target.value)}
-          label="Transportsätt"
-          value={formValues.transportType}
-          type="text"
-          fullWidth
-        />
-      </section>
-      <section className={classes.formControl}>
-        <Autocomplete
-          id="roomType"
-          defaultValue={setSelectedListValue(roomTypes, "roomType")}
-          options={roomTypes}
-          getOptionLabel={({ name, roomType, roomTypesAvailable }) =>
-            `${name} - ${roomType} (${roomTypesAvailable})`
-          }
-          autoSelect
-          onChange={(event, value) =>
-            inputOnChange("roomType", Number(value.id) || "")
-          }
-          style={{ width: 300 }}
-          renderInput={params => (
-            <TextField {...params} label="Rumstyp" fullWidth />
-          )}
-        />
-      </section>
-      <section className={classes.formControl}>
-        <TextField
-          id="comment"
-          margin="dense"
-          label="Kommentar"
-          variant="outlined"
-          rows="4"
-          value={formValues.comment}
-          onChange={({ target }) => inputOnChange(target.id, target.value)}
-          multiline
-          fullWidth
-        />
-      </section>
-      <FormControl component="fieldset">
-        <section className={classes.formControl}>
-          <FormLabel component="legend">Förbetalt</FormLabel>
-          <RadioGroup
-            aria-label="position"
-            name="payedInAdvanced"
-            onChange={({ target }) =>
-              inputOnChange("payedInAdvanced", target.checked)
+        </Grid>
+        <Grid item xs={12}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils} locale={svLocale}>
+            <KeyboardDatePicker
+              margin="normal"
+              id="fromDate"
+              className={classes.dateInput}
+              autoOk
+              label="Från datum"
+              format="dd/MM/yyyy"
+              value={formValues.fromDate}
+              onChange={date => inputOnChange("fromDate", date)}
+              KeyboardButtonProps={{
+                "aria-label": "change date"
+              }}
+            />
+            <KeyboardDatePicker
+              margin="normal"
+              id="toDate"
+              className={classes.dateInput}
+              autoOk
+              label="Till datum"
+              format="dd/MM/yyyy"
+              value={formValues.toDate}
+              onChange={date => inputOnChange("toDate", date)}
+              KeyboardButtonProps={{
+                "aria-label": "change date"
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            margin="dense"
+            id="transportType"
+            onChange={({ target }) => inputOnChange(target.id, target.value)}
+            label="Transportsätt"
+            value={formValues.transportType}
+            type="text"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Autocomplete
+            id="roomType"
+            defaultValue={setSelectedListValue(roomTypes, "roomType")}
+            options={roomTypes}
+            getOptionLabel={({ name, roomType, roomTypesAvailable }) =>
+              `${name} - ${roomType} (${roomTypesAvailable} st totalt)`
             }
-            value={formValues.payedInAdvanced}
-            row
-          >
-            <FormControlLabel
-              value
-              control={<Radio color="primary" />}
-              label="Ja"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value={false}
-              control={<Radio color="primary" />}
-              label="Nej"
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </section>
-        <section className={classes.formControl}>
-          <FormLabel component="legend">Hyra overall</FormLabel>
-          <RadioGroup
-            aria-label="position"
-            name="rentOveralls"
-            onChange={({ target }) =>
-              inputOnChange("rentOveralls", target.checked)
+            autoSelect
+            onChange={(event, value) =>
+              inputOnChange("roomType", Number(value.id) || "")
             }
-            value={formValues.rentOveralls}
-            row
-          >
-            <FormControlLabel
-              value={true}
-              control={<Radio color="primary" />}
-              label="Ja"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value={false}
-              control={<Radio color="primary" />}
-              label="Nej"
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </section>
-      </FormControl>
+            renderInput={params => (
+              <TextField {...params} label="Rumstyp" fullWidth />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="comment"
+            margin="dense"
+            label="Kommentar"
+            variant="outlined"
+            rows="4"
+            value={formValues.comment}
+            onChange={({ target }) => inputOnChange(target.id, target.value)}
+            multiline
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Förbetalt</FormLabel>
+            <RadioGroup
+              aria-label="position"
+              name="payedInAdvanced"
+              onChange={({ target }) =>
+                inputOnChange("payedInAdvanced", target.checked)
+              }
+              value={formValues.payedInAdvanced}
+              row
+            >
+              <FormControlLabel
+                value
+                control={<Radio color="primary" />}
+                label="Ja"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value={false}
+                control={<Radio color="primary" />}
+                label="Nej"
+                labelPlacement="start"
+              />
+            </RadioGroup>
+            <FormLabel component="legend">Hyra overall</FormLabel>
+            <RadioGroup
+              aria-label="position"
+              name="rentOveralls"
+              onChange={({ target }) =>
+                inputOnChange("rentOveralls", target.checked)
+              }
+              value={formValues.rentOveralls}
+              row
+            >
+              <FormControlLabel
+                value={true}
+                control={<Radio color="primary" />}
+                label="Ja"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value={false}
+                control={<Radio color="primary" />}
+                label="Nej"
+                labelPlacement="start"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+      </Grid>
     </div>
   );
 };

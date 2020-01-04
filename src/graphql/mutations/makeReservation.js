@@ -7,6 +7,7 @@ export const MAKE_RESERVATION = gql`
     $toDate: String
     $comment: String
     $transportType: String
+    $nrOfGuests: Int
     $roomType: Int
     $payedInAdvanced: Boolean
     $rentOveralls: Boolean
@@ -17,7 +18,7 @@ export const MAKE_RESERVATION = gql`
       toDate: $toDate
       comment: $comment
       transportType: $transportType
-      nrOfGuests: 2
+      nrOfGuests: $nrOfGuests
       roomType: $roomType
       payedInAdvanced: $payedInAdvanced
       rentOveralls: $rentOveralls

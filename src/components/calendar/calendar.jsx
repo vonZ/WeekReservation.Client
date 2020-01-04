@@ -17,7 +17,7 @@ const Calendar = ({
       ? calendarNodes.map(item => ({
           ...item,
           itemId: item.id,
-          title: `${item.customer.firstName} ${item.customer.lastName}`,
+          title: `${item.customer.firstName} ${item.customer.lastName} (${item.nrOfGuests} gäster)`,
           start: item.fromDate,
           end: item.toDate
         }))
@@ -57,8 +57,8 @@ const Calendar = ({
     eventClick: ({ event }) =>
       setSelectedDate({
         title: event.title,
-        fromDate: event.start.toLocaleDateString(),
-        toDate: event.end.toLocaleDateString(),
+        fromDate: event.start,
+        toDate: event.end,
         ...event.extendedProps
       })
   };

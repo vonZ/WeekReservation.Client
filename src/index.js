@@ -6,6 +6,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { resolvers, typeDefs } from "./resolvers";
+import { Header } from "./sections";
 import injectStyles from "./styles";
 import Reservations from "./pages/reservations";
 
@@ -36,6 +37,7 @@ cache.writeData({
 injectStyles();
 ReactDOM.render(
   <ApolloProvider client={client}>
+    <Header />
     <Reservations />
   </ApolloProvider>,
   document.getElementById("root")
