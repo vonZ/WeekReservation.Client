@@ -1,0 +1,9 @@
+.overlay-wrapper {
+  opacity: 1;
+  transition: 0.2s;
+
+  &--inactive {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
