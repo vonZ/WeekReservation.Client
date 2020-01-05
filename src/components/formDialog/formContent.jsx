@@ -8,6 +8,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
+import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControl from "@material-ui/core/FormControl";
@@ -23,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   textInput: {
     marginTop: 5,
     marginBottom: 4
+  },
+  dateInput: {
+    marginRight: 10,
   }
 }));
 
@@ -69,6 +73,12 @@ const FormContent = ({
               <TextField {...params} label="Huvudbokare" fullWidth />
             )}
           />
+          <Button
+            size="small"
+            color="primary"
+          >
+            Lägg till ny kund
+          </Button>
         </Grid>
         <Grid item xs={4}>
           <TextField
@@ -79,7 +89,7 @@ const FormContent = ({
             }
             label="Totalt antal gäster"
             value={formValues.nrOfGuests}
-            type="text"
+            type="number"
             fullWidth
           />
         </Grid>
@@ -211,6 +221,7 @@ const FormContent = ({
 
 FormContent.propTypes = {
   customers: PropTypes.array,
+  roomTypes: PropTypes.any,
   selectedDate: PropTypes.object,
   setFormData: PropTypes.func
 };
