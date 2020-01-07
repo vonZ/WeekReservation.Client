@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "@reach/router";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -6,6 +7,21 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+
+const linkList = [
+  {
+    linkName: "Start",
+    link: "/"
+  },
+  {
+    linkName: "Kalender",
+    link: "/calendar"
+  },
+  {
+    linkName: "Kunder",
+    link: "/customers"
+  }
+];
 
 const useStyles = makeStyles({
   list: {
@@ -18,7 +34,7 @@ const useStyles = makeStyles({
 
 const Navigation = props => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     isOpen: false
   });
 
@@ -41,20 +57,15 @@ const Navigation = props => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
+        {linkList.map(({ linkName, link }) => (
+          <Link key={linkName} to={link}>
+            <ListItem button key={linkName}>
+              <ListItemText primary={linkName} />
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
     </div>
   );
 

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Header } from "../sections";
 import CalendarContainer from "../components/calendar/CalendarContainer";
 
-const ReservationPage = props => {
+const CalendarPage = props => {
   return (
     <Fragment>
       <Header />
@@ -11,4 +11,4 @@ const ReservationPage = props => {
   );
 };
 
-export default ReservationPage;
+export default CalendarPage;

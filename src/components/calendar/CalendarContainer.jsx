@@ -109,7 +109,6 @@ const CalendarContainer = props => {
       <Fragment>
         <Container>
           <Calendar {...calendarProps} />
-          {/* <DataTable {...dataTableProps} /> */}
         </Container>
         <FormDialog {...formDialogProps} />
       </Fragment>

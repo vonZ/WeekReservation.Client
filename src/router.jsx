@@ -1,15 +1,13 @@
 import React from "react";
 import { Router } from "@reach/router";
-import { ReservationPage } from "./pages";
+import * as Pages from "./pages";
 
-const RouterRoot = props => {
-  return (
-    <Router>
-      <ReservationPage path="/reservations" />
-    </Router>
-  );
-};
-
-RouterRoot.propTypes = {};
+const RouterRoot = props => (
+  <Router>
+    <Pages.StartPage path="/" />
+    <Pages.CalendarPage path="/calendar" />
+    <Pages.CustomerPage path="/customers" />
+  </Router>
+);
 
 export default RouterRoot;

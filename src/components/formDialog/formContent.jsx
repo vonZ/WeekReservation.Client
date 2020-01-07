@@ -16,6 +16,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Link } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   dateInput: {
     marginRight: 10,
-  }
+  },
 }));
 
 const FormContent = ({
@@ -77,7 +78,7 @@ const FormContent = ({
             size="small"
             color="primary"
           >
-            Lägg till ny kund
+            <Link to={"/customers"}>Lägg till ny kund</Link>
           </Button>
         </Grid>
         <Grid item xs={4}>
