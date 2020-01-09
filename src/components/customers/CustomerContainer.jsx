@@ -25,8 +25,8 @@ const CustomerContainer = props => {
     loading: customerDataIsLoading,
     error: getCustomerError
   } = useQuery(GET_ALL_CUSTOMERS);
-  const classes = useStyles();
 
+  const classes = useStyles();
   const { getAllCustomers = [] } = customerNodes;
 
   const shouldRenderCustomer = () =>
@@ -41,7 +41,12 @@ const CustomerContainer = props => {
   return (
     <Container>
       <div className={classes.section}>
-        <Button  align="right" variant="contained" color="primary" disableElevation>
+        <Button
+          align="right"
+          variant="contained"
+          color="primary"
+          disableElevation
+        >
           Lägg till kund
         </Button>
         <div className={classes.tableContainer}>

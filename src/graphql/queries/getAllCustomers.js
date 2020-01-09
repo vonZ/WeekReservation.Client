@@ -8,6 +8,10 @@ export const GET_ALL_CUSTOMERS = gql`
       lastName
       email
       phoneNumber
+      reservations {
+        fromDate
+        toDate
+      }
     }
   }
 `;

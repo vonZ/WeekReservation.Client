@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
+  link: {
+    textDecoration: 'none'
+  },
   textInput: {
     marginTop: 5,
     marginBottom: 4
@@ -76,9 +79,10 @@ const FormContent = ({
           />
           <Button
             size="small"
+            variant="outlined"
             color="primary"
           >
-            <Link to={"/customers"}>Lägg till ny kund</Link>
+            <Link className={classes.link} to={"/customers"}>Lägg till ny kund</Link>
           </Button>
         </Grid>
         <Grid item xs={4}>

@@ -49,7 +49,7 @@ const CustomerTable = ({
                 <TableCell align="center">{row.lastName}</TableCell>
                 <TableCell align="center"><a href={`mailto:${row.email}`}>{row.email}</a></TableCell>
                 <TableCell align="center">{row.phoneNumber}</TableCell>
-                <TableCell align="center">{row.phoneNumber}</TableCell>
+                <TableCell align="center">{row.reservations.length}</TableCell>
                 <TableCell align="right">
                   <Button color="primary">Redigera</Button>{" / "}
                   <Button color="secondary">Ta bort</Button>
