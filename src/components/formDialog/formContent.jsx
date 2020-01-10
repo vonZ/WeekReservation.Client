@@ -23,15 +23,15 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   link: {
-    textDecoration: 'none'
+    textDecoration: "none"
   },
   textInput: {
     marginTop: 5,
     marginBottom: 4
   },
   dateInput: {
-    marginRight: 10,
-  },
+    marginRight: 10
+  }
 }));
 
 const FormContent = ({
@@ -41,7 +41,14 @@ const FormContent = ({
   setFormData = () => {}
 }) => {
   const classes = useStyles();
-  const [formValues, setFormValues] = useState(selectedDate);
+  const [formValues, setFormValues] = useState({
+    ...selectedDate,
+    nrOfGuests: selectedDate.nrOfGuests || '',
+    transportType: selectedDate.transportType || '',
+    comment: selectedDate.comment || '',
+    payedInAdvanced: selectedDate.payedInAdvanced || false,
+    rentOveralls: selectedDate.rentOveralls || false
+  });
 
   useEffect(() => {
     setFormData(formValues);
@@ -61,42 +68,44 @@ const FormContent = ({
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={8}>
-          <Autocomplete
-            id="customer"
-            className={classes.textInput}
-            defaultValue={setSelectedListValue(customers, "customerId")}
-            options={customers}
-            getOptionLabel={({ firstName, lastName, id }) =>
-              `${firstName} ${lastName}`
-            }
-            autoSelect
-            onChange={(event, value) =>
-              inputOnChange("customerId", Number(value.id) || "")
-            }
-            renderInput={params => (
-              <TextField {...params} label="Huvudbokare" fullWidth />
-            )}
-          />
-          <Button
-            size="small"
-            variant="outlined"
-            color="primary"
-          >
-            <Link className={classes.link} to={"/customers"}>Lägg till ny kund</Link>
-          </Button>
+          <form autoComplete="off">
+            <Autocomplete
+              id="customer"
+              className={classes.textInput}
+              defaultValue={setSelectedListValue(customers, "customerId")}
+              options={customers}
+              getOptionLabel={({ firstName, lastName, id }) =>
+                `${firstName} ${lastName}`
+              }
+              autoSelect
+              onChange={(event, value) =>
+                inputOnChange("customerId", Number(value.id) || "")
+              }
+              renderInput={params => (
+                <TextField {...params} label="Huvudbokare" fullWidth />
+              )}
+            />
+            <Button size="small" variant="outlined" color="primary">
+              <Link className={classes.link} to={"/customers"}>
+                Lägg till ny kund
+              </Link>
+            </Button>
+          </form>
         </Grid>
         <Grid item xs={4}>
-          <TextField
-            margin="dense"
-            id="nrOfGuests"
-            onChange={({ target }) =>
-              inputOnChange(target.id, Number(target.value))
-            }
-            label="Totalt antal gäster"
-            value={formValues.nrOfGuests}
-            type="number"
-            fullWidth
-          />
+          <form autoComplete="off">
+            <TextField
+              margin="dense"
+              id="nrOfGuests"
+              onChange={({ target }) =>
+                inputOnChange(target.id, Number(target.value))
+              }
+              label="Totalt antal gäster"
+              value={formValues.nrOfGuests}
+              type="number"
+              fullWidth
+            />
+          </form>
         </Grid>
         <Grid item xs={12}>
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={svLocale}>
@@ -129,17 +138,19 @@ const FormContent = ({
           </MuiPickersUtilsProvider>
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            margin="dense"
-            id="transportType"
-            onChange={({ target }) => inputOnChange(target.id, target.value)}
-            label="Transportsätt"
-            value={formValues.transportType}
-            type="text"
-            fullWidth
-          />
+          <form autoComplete="off">
+            <TextField
+              margin="dense"
+              id="transportType"
+              onChange={({ target }) => inputOnChange(target.id, target.value)}
+              label="Transportsätt"
+              value={formValues.transportType}
+              type="text"
+              fullWidth
+            />
+          </form>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Autocomplete
             id="roomType"
             defaultValue={setSelectedListValue(roomTypes, "roomType")}
@@ -155,7 +166,7 @@ const FormContent = ({
               <TextField {...params} label="Rumstyp" fullWidth />
             )}
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <TextField
             id="comment"

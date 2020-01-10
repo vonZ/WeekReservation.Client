@@ -5,7 +5,7 @@ export const GET_ALL_ROOM_TYPES = gql`
     getAllRoomTypes {
       id
       name
-      roomType
+      type
       roomTypesAvailable
     }
   }

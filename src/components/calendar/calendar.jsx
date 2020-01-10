@@ -38,8 +38,8 @@ const Calendar = ({
     weekNumbers: true,
     editable: true,
     validRange: {
-      start: "2020-01-01",
-      end: "2020-03-01"
+      start: "2020-03-01",
+      end: "2020-09-01"
     },
     plugins: [dayGridPlugin, interactionPlugin],
     events: getEvents(),

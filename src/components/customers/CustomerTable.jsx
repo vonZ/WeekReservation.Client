@@ -20,13 +20,14 @@ const CustomerTable = ({
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>
                 <b>Förnamn</b>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <b>Efternamn</b>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <b>Email</b>
               </TableCell>
               <TableCell align="center">
@@ -41,13 +42,16 @@ const CustomerTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {customerData.map(row => (
-              <TableRow hover key={row.firstName}>
+            {customerData.map((row, index) => (
+              <TableRow hover key={index}>
+                <TableCell component="th" scope="row">
+                  {index + 1}
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {row.firstName}
                 </TableCell>
-                <TableCell align="center">{row.lastName}</TableCell>
-                <TableCell align="center"><a href={`mailto:${row.email}`}>{row.email}</a></TableCell>
+                <TableCell align="left">{row.lastName}</TableCell>
+                <TableCell align="left"><a href={`mailto:${row.email}`}>{row.email}</a></TableCell>
                 <TableCell align="center">{row.phoneNumber}</TableCell>
                 <TableCell align="center">{row.reservations.length}</TableCell>
                 <TableCell align="right">

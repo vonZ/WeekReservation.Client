@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "@reach/router";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -29,36 +28,25 @@ const useStyles = makeStyles({
   },
   fullList: {
     width: "auto"
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
-const Navigation = props => {
+const Navigation = ({ toggleNavigation, navigationIsOpen }) => {
   const classes = useStyles();
-  const [state, setState] = useState({
-    isOpen: false
-  });
-
-  const toggleDrawer = open => event => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setState({ ...state, isOpen: open });
-  };
 
   const sideList = () => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={toggleNavigation(false)}
+      onKeyDown={toggleNavigation(false)}
     >
       <List>
         {linkList.map(({ linkName, link }) => (
-          <Link key={linkName} to={link}>
+          <Link className={classes.link} key={linkName} to={link}>
             <ListItem button key={linkName}>
               <ListItemText primary={linkName} />
             </ListItem>
@@ -70,12 +58,9 @@ const Navigation = props => {
   );
 
   return (
-    <React.Fragment>
-      <Button onClick={toggleDrawer(true)}>Open Left</Button>
-      <Drawer open={state.isOpen} onClose={toggleDrawer(false)}>
-        {sideList()}
-      </Drawer>
-    </React.Fragment>
+    <Drawer open={navigationIsOpen} onClose={toggleNavigation(false)}>
+      {sideList()}
+    </Drawer>
   );
 };
 

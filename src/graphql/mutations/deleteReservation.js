@@ -12,8 +12,13 @@ export const DELETE_RESERVATION = gql`
         toDate
         comment
         transportType
-        roomType
         nrOfGuests
+        roomType {
+          id
+          name
+          type
+          roomTypesAvailable
+        }
         payedInAdvanced
         rentOveralls
       }

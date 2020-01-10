@@ -19,7 +19,7 @@ export const MAKE_RESERVATION = gql`
       comment: $comment
       transportType: $transportType
       nrOfGuests: $nrOfGuests
-      roomType: $roomType
+      roomTypeId: $roomType
       payedInAdvanced: $payedInAdvanced
       rentOveralls: $rentOveralls
     ) {
@@ -32,8 +32,13 @@ export const MAKE_RESERVATION = gql`
         toDate
         comment
         transportType
-        roomType
         nrOfGuests
+        roomType {
+          id
+          name
+          type
+          roomTypesAvailable
+        }
         payedInAdvanced
         rentOveralls
       }

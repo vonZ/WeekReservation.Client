@@ -10,7 +10,12 @@ export const GET_ALL_RESERVATIONS = gql`
       comment
       transportType
       nrOfGuests
-      roomType
+      roomType {
+        id
+        name
+        type
+        roomTypesAvailable
+      }
       payedInAdvanced
       rentOveralls
     }

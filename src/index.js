@@ -1,13 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { resolvers, typeDefs } from "./resolvers";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 import injectStyles from "./styles";
 import RouterRoot from "./router";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#1565c0"
+    },
+    secondary: {
+      main: "#d50000"
+    }
+  }
+});
 
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote endpoint
@@ -35,9 +47,11 @@ cache.writeData({
 
 injectStyles();
 const Index = ReactDOM.render(
-  <ApolloProvider client={client}>
-    <RouterRoot />
-  </ApolloProvider>,
+  <ThemeProvider theme={theme}>
+    <ApolloProvider client={client}>
+      <RouterRoot />
+    </ApolloProvider>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 
