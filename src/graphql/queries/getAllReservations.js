@@ -9,6 +9,10 @@ export const GET_ALL_RESERVATIONS = gql`
       toDate
       comment
       transportType
+      customer {
+        firstName
+        lastName
+      }
       nrOfGuests
       roomType {
         id

@@ -19,6 +19,10 @@ const linkList = [
   {
     linkName: "Kunder",
     link: "/customers"
+  },
+  {
+    linkName: "Reservationer",
+    link: "/reservations"
   }
 ];
 
@@ -30,7 +34,8 @@ const useStyles = makeStyles({
     width: "auto"
   },
   link: {
-    textDecoration: "none"
+    textDecoration: "none",
+    color: "black",
   }
 });
 
