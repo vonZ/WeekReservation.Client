@@ -42,7 +42,7 @@ const FormContent = ({
   const classes = useStyles();
   const [formValues, setFormValues] = useState({
     ...selectedDate,
-    nrOfGuests: selectedDate.nrOfGuests || '',
+    nrOfGuests: selectedDate.nrOfGuests || 4,
     transportType: selectedDate.transportType || '',
     comment: selectedDate.comment || '',
     payedInAdvanced: selectedDate.payedInAdvanced || false,

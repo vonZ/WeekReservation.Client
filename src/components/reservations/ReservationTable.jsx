@@ -15,9 +15,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 
-const DataRow = ({ item, classes, index }) => (
+const WeekRow = ({ classes, item, index }) => (
   <ExpansionPanel>
     <ExpansionPanelSummary
       aria-controls="panel1a-content"
@@ -27,51 +26,21 @@ const DataRow = ({ item, classes, index }) => (
       <div style={{ width: "100%" }}>
         <Box display="flex">
           <Box p={1} flexGrow={1}>
-            <Typography>{`${item.fromDate} - ${item.toDate}`}</Typography>
-          </Box>
-          <Box p={1} flexGrow={2}>
-            <Typography>{`${item.customer.firstName} ${item.customer.lastName}`}</Typography>
-          </Box>
-          <Box p={1}>
-            <Typography color="textSecondary">Status</Typography>
-          </Box>
-          <Box p={1}>
-            <FiberManualRecordRoundedIcon
-              color={index % 3 ? "action" : "error"}
-            />
-          </Box>
-        </Box>
-      </div>
-    </ExpansionPanelSummary>
-    <ExpansionPanelDetails>
-      <div style={{ width: "100%" }}>
-        <Box paddingLeft={1} display="flex">
-          <Box flexGrow={1}>
-            <Typography color="textSecondary">{item.comment}</Typography>
-          </Box>
-        </Box>
-      </div>
-    </ExpansionPanelDetails>
-  </ExpansionPanel>
-);
-
-const WeekRow = ({ classes, item, index, reservationData }) => (
-  <ExpansionPanel>
-    <ExpansionPanelSummary
-      aria-controls="panel1a-content"
-      id="panel1a-header"
-      expandIcon={<ExpandMoreIcon color="disabled" />}
-    >
-      <div style={{ width: "100%" }}>
-        <Box display="flex">
-          <Box p={1} flexGrow={1}>
-            <Typography><b>{`Vecka ${item.weekNr}`}</b></Typography>
+            <Typography>
+              <b>{item.alias}</b>
+            </Typography>
           </Box>
           <Box p={1} flexGrow={8}>
-            <Typography><small>2020-03-01 till 2020-03-15</small></Typography>
+            <Typography>
+              <small>{`${item.fromDate} till ${item.toDate}`}</small>
+            </Typography>
           </Box>
           <Box p={1} flexGrow={2}>
-            <Typography><small><u>Kapacitet:</u> 3 bokningar</small></Typography>
+            <Typography>
+              <small>
+                <u>Kapacitet:</u> { `${item.capacity} bokningar`}
+              </small>
+            </Typography>
           </Box>
           <Box p={1}>
             <Typography color="textSecondary">Beläggning</Typography>
@@ -84,7 +53,9 @@ const WeekRow = ({ classes, item, index, reservationData }) => (
         </Box>
       </div>
     </ExpansionPanelSummary>
-    <ExpansionPanelDetails style={{ width: "100%", backgroundColor: "#f3f3f3" }}>
+    <ExpansionPanelDetails
+      style={{ width: "100%", backgroundColor: "#f3f3f3" }}
+    >
       <div style={{ width: "100%" }}>
         <Box p={1} display="flex">
           <TableContainer component={Paper}>
@@ -154,24 +125,15 @@ const WeekRow = ({ classes, item, index, reservationData }) => (
 
 const ReservationTable = ({
   classes = {},
-  reservationData = [],
+  slotData = [],
   shouldRenderEvents = false,
   mockWeekData = []
 }) => {
   return (
     <LoadingWrapper isActive={!shouldRenderEvents}>
-      {mockWeekData.map((item, index) => (
-        <WeekRow
-          classes={classes}
-          key={index}
-          index={index}
-          item={item}
-          reservationData={reservationData}
-        />
+      {slotData.map((item, index) => (
+        <WeekRow classes={classes} key={index} index={index} item={item} />
       ))}
-      {/* {reservationData.map((item, index) => (
-        <DataRow classes={classes} key={index} index={index} item={item} />
-      ))} */}
     </LoadingWrapper>
   );
 };

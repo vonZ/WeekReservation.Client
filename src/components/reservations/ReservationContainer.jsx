@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useQuery } from "@apollo/react-hooks";
-import { GET_ALL_RESERVATIONS } from "../../graphql";
+import { GET_ALL_SLOTS } from "../../graphql";
 import Container from "@material-ui/core/Container";
 import ReservationTable from "./ReservationTable";
 import Button from "@material-ui/core/Button";
@@ -42,21 +42,21 @@ const mockWeekData = () => {
 
 const ReservationContainer = props => {
   const {
-    data: reservationNodes,
-    loading: reservationDataIsLoading,
-    error: getReservationHasError
-  } = useQuery(GET_ALL_RESERVATIONS);
+    data: slotNodes,
+    loading: slotDataIsLoading,
+    error: getAllSlotsHasError
+  } = useQuery(GET_ALL_SLOTS);
 
   const classes = useStyles();
-  const { getAllReservations = [] } = reservationNodes;
+  const { getAllSlots = [] } = slotNodes;
 
-  const shouldRenderCustomer = () =>
-    !reservationDataIsLoading && !getReservationHasError;
+  const shouldRenderSlots = () =>
+    !slotDataIsLoading && !getAllSlotsHasError;
 
   const reservationTableProps = {
     classes,
-    reservationData: getAllReservations,
-    shouldRenderEvents: shouldRenderCustomer(),
+    slotData: getAllSlots,
+    shouldRenderEvents: shouldRenderSlots(),
     mockWeekData: mockWeekData()
   };
 
