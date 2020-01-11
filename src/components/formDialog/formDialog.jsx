@@ -12,7 +12,6 @@ const FormDialog = ({
   open = false,
   selectedDate = {},
   customers = [],
-  roomTypes = [],
   setSelectedDate = () => {},
   makeReservation = () => {},
   deleteReservationById = () => {}
@@ -39,7 +38,6 @@ const FormDialog = ({
   const formContentProps = {
     selectedDate,
     customers,
-    roomTypes,
     setFormData
   };
 

@@ -37,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 const FormContent = ({
   selectedDate,
   customers,
-  roomTypes,
   setFormData = () => {}
 }) => {
   const classes = useStyles();
@@ -150,23 +149,6 @@ const FormContent = ({
             />
           </form>
         </Grid>
-        {/* <Grid item xs={12}>
-          <Autocomplete
-            id="roomType"
-            defaultValue={setSelectedListValue(roomTypes, "roomType")}
-            options={roomTypes}
-            getOptionLabel={({ name, roomType, roomTypesAvailable }) =>
-              `${name} - ${roomType} (${roomTypesAvailable} st totalt)`
-            }
-            autoSelect
-            onChange={(event, value) =>
-              inputOnChange("roomType", Number(value.id) || "")
-            }
-            renderInput={params => (
-              <TextField {...params} label="Rumstyp" fullWidth />
-            )}
-          />
-        </Grid> */}
         <Grid item xs={12}>
           <TextField
             id="comment"
@@ -237,7 +219,6 @@ const FormContent = ({
 
 FormContent.propTypes = {
   customers: PropTypes.array,
-  roomTypes: PropTypes.any,
   selectedDate: PropTypes.object,
   setFormData: PropTypes.func
 };

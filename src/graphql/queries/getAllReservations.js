@@ -14,12 +14,6 @@ export const GET_ALL_RESERVATIONS = gql`
         lastName
       }
       nrOfGuests
-      roomType {
-        id
-        name
-        type
-        roomTypesAvailable
-      }
       payedInAdvanced
       rentOveralls
     }

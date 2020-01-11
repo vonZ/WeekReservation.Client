@@ -64,7 +64,7 @@ const ReservationContainer = props => {
     <Container>
       <div className={classes.section}>
         <Button variant="contained" color="primary" disableElevation>
-          Ny reservation
+          Ny slot
         </Button>
         <div className={classes.tableContainer}>
           <ReservationTable {...reservationTableProps} />
