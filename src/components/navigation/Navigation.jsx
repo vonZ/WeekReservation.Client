@@ -21,8 +21,8 @@ const linkList = [
     link: "/customers"
   },
   {
-    linkName: "Reservationer",
-    link: "/reservations"
+    linkName: "Slots",
+    link: "/slots"
   }
 ];
 

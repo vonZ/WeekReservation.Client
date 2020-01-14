@@ -15,6 +15,13 @@ export const CREATE_SLOT = gql`
     ) {
       success
       message
+      slots {
+        id
+        alias
+        fromDate
+        toDate
+        capacity
+      }
     }
   }
 `;

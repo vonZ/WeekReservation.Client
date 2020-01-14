@@ -7,7 +7,7 @@ const RouterRoot = props => (
     <Pages.StartPage path="/" />
     <Pages.CalendarPage path="/calendar" />
     <Pages.CustomerPage path="/customers" />
-    <Pages.ReservationPage path="/reservations" />
+    <Pages.SlotPage path="/slots" />
   </Router>
 );
 

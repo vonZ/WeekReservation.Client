@@ -8,6 +8,20 @@ export const GET_ALL_SLOTS = gql`
       fromDate
       toDate
       capacity
+      reservations {
+        id
+        fromDate
+        toDate
+        customer {
+          id
+          firstName
+          lastName
+          nrOfReservations
+          phoneNumber
+          email
+        }
+        comment
+      }
     }
   }
 `;

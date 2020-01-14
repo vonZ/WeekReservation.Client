@@ -1,6 +1,6 @@
 import StartPage from "./StartPage";
 import CalendarPage from "./CalendarPage";
 import CustomerPage from "./CustomerPage";
-import ReservationPage from "./ReservationPage";
+import SlotPage from "./SlotPage";
 
-export { StartPage, CalendarPage, CustomerPage, ReservationPage };
+export { StartPage, CalendarPage, CustomerPage, SlotPage };

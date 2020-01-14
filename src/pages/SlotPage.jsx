@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import { Header } from "../sections";
-import ReservationContainer from "../components/reservations/ReservationContainer";
+import SlotContainer from "../components/slots/SlotContainer";
 
 const ReservationPage = props => {
   return (
     <Fragment>
       <Header />
-      <ReservationContainer />
+      <SlotContainer />
     </Fragment>
   );
 };
