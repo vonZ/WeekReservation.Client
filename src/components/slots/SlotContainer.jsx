@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_ALL_SLOTS, GET_ALL_RESERVATIONS, CREATE_SLOT } from "../../graphql";
+import { GET_ALL_SLOTS, CREATE_SLOT } from "../../graphql";
 import Container from "@material-ui/core/Container";
 import SlotTable from "./SlotTable/SlotTable";
 import SlotFormContainer from './SlotForm/SlotFormContainer';
@@ -35,12 +35,6 @@ const SlotContainer = () => {
     error: getAllSlotsHasError
   } = useQuery(GET_ALL_SLOTS);
 
-  const {
-    data: reservationData,
-    loading: reservationDataIsLoading,
-    error: reservationDataHasError
-  } = useQuery(GET_ALL_RESERVATIONS);
-
   const [createSlot] = useMutation(CREATE_SLOT, {
     update(
       cache,
@@ -65,15 +59,13 @@ const SlotContainer = () => {
   const [modalIsOpen, setModalVisibility] = useState(false);
 
   const classes = useStyles();
-  const { getAllSlots = [] } = slotNodes;
-  const { getAllReservations: reservationNodes = [] } = reservationData;
+  const { getAllSlots: slotData = [] } = slotNodes;
 
   const shouldRenderSlots = () => !slotDataIsLoading && !getAllSlotsHasError;
 
   const reservationTableProps = {
     classes,
-    slotData: getAllSlots,
-    reservationNodes,
+    slotData,
     shouldRenderEvents: shouldRenderSlots()
   };
 

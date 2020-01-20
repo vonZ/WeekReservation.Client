@@ -10,17 +10,18 @@ export const GET_ALL_SLOTS = gql`
       capacity
       reservations {
         id
+        customerId
         fromDate
         toDate
+        comment
+        transportType
         customer {
-          id
           firstName
           lastName
-          nrOfReservations
-          phoneNumber
-          email
         }
-        comment
+        nrOfGuests
+        payedInAdvanced
+        rentOveralls
       }
     }
   }

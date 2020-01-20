@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { LoadingWrapper, CircleIcon } from "../../shared";
 import Box from "@material-ui/core/Box";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -15,7 +16,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-const WeekRow = ({ classes, item, index }) => (
+const WeekRow = ({ classes = {}, item = {} }) => (
   <ExpansionPanel>
     <ExpansionPanelSummary
       aria-controls="panel1a-content"
@@ -39,9 +40,7 @@ const WeekRow = ({ classes, item, index }) => (
           </Box>
           <Box p={1} flexGrow={2}>
             <Typography>
-              <small>
-                <u>Kapacitet:</u> {`${item.capacity} bokningar`}
-              </small>
+              <small>Kapacitet: {`${item.capacity} bokningar`}</small>
             </Typography>
           </Box>
           <Box p={1}>
@@ -103,11 +102,15 @@ const WeekRow = ({ classes, item, index }) => (
                       </TableCell>
                       <TableCell align="left"> {node.toDate}</TableCell>
                       <TableCell align="left">{node.comment}</TableCell>
-                      <TableCell align="center">Bil</TableCell>
+                      <TableCell align="center">{node.transportType}</TableCell>
                       <TableCell align="center">Viktor von Zeipel</TableCell>
-                      <TableCell align="center">4</TableCell>
-                      <TableCell align="center">Ja</TableCell>
-                      <TableCell align="center">Nej</TableCell>
+                      <TableCell align="center">{node.nrOfGuests}</TableCell>
+                      <TableCell align="center">
+                        {node.payedInAdvanced ? "Ja" : "Nej"}
+                      </TableCell>
+                      <TableCell align="center">
+                        {node.rentOveralls ? "Ja" : "Nej"}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -125,16 +128,22 @@ const WeekRow = ({ classes, item, index }) => (
 const SlotTable = ({
   classes = {},
   slotData = [],
-  shouldRenderEvents = false,
-  reservationNodes = []
+  shouldRenderEvents = false
 }) => {
   return (
     <LoadingWrapper isActive={!shouldRenderEvents}>
       {slotData.map((item, index) => (
-        <WeekRow classes={classes} key={index} index={index} item={item} />
+        <WeekRow classes={classes} key={index} item={item} />
       ))}
     </LoadingWrapper>
   );
 };
+
+SlotTable.propTypes = {
+  classes: PropTypes.object,
+  shouldRenderEvents: PropTypes.bool,
+  slotData: PropTypes.array
+};
+
 
 export default SlotTable;
