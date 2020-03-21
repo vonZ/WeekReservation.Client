@@ -30,10 +30,10 @@ const SlotForm = ({ selectedSlot = {}, setFormData = () => {} }) => {
   const classes = useStyles();
   const [formValues, setFormValues] = useState({
     ...selectedSlot,
-    alias: selectedSlot.alias || "Reservationsvecka XX",
+    alias: selectedSlot.alias || "Vecka XX",
     fromDate: selectedSlot.fromDate || Date.now(),
     toDate: selectedSlot.toDate || Date.now(),
-    capacity: selectedSlot.capacity || 3
+    capacity: selectedSlot.capacity || 4
   });
 
   useEffect(() => {

@@ -36,7 +36,8 @@ const cache = new InMemoryCache();
 const client = new ApolloClient({
   cache,
   link: new HttpLink({
-    uri: "http://localhost:4000/graphql",
+    // uri: "http://localhost:4000/graphql",
+    uri: "https://weekreservationapi.viktorvz.now.sh/src",
     headers: {
       authorization: localStorage.getItem("token"),
       "client-name": "Week reservatation [web]",

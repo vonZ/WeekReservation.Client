@@ -34,17 +34,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FormContent = ({
-  selectedDate,
-  customers,
-  setFormData = () => {}
-}) => {
+const FormContent = ({ selectedDate, customers, setFormData = () => {} }) => {
   const classes = useStyles();
   const [formValues, setFormValues] = useState({
     ...selectedDate,
     nrOfGuests: selectedDate.nrOfGuests || 4,
-    transportType: selectedDate.transportType || '',
-    comment: selectedDate.comment || '',
+    transportType: selectedDate.transportType || "",
+    comment: selectedDate.comment || "",
     payedInAdvanced: selectedDate.payedInAdvanced || false,
     rentOveralls: selectedDate.rentOveralls || false
   });

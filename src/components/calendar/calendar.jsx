@@ -51,8 +51,8 @@ const Calendar = ({
       }),
     select: ({ startStr, endStr }) =>
       setSelectedDate({
-        fromDate: startStr,
-        toDate: endStr
+        fromDate: new Date(startStr),
+        toDate: new Date(endStr)
       }),
     eventClick: ({ event }) =>
       setSelectedDate({
